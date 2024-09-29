@@ -17,7 +17,7 @@ my vocabulary book (暫定)
 |           | 使用技術                 |
 | ---       | ---                     |
 | frontend  | Vite + Vue + TypeScript |
-| backend   | kotlin(spring boot)     |
+| backend   | go + mySQL              |
 
 ## 構造
 ```
@@ -31,9 +31,9 @@ my vocabulary book (暫定)
 - 日本語で単語・熟語を考えて翻訳する
 - 誰(何)のためのものかを名前の先頭に持ってくる
 
-|                  | 記法             | 例        |
-| ---              | ---              | ---       |
-| ファイル名        | パスカルケース    | UserPage  |
-| URL・HTMLのクラス | ケバブケース      | user-page |
-| 関数・変数・定数   | キャメルケース    | userId    |
-| 不変な定数        | コンスタントケース | GLOBAL_ID |
+|                          | 記法             | 例        |
+| ---                      | ---              | ---       |
+| ファイル名                | パスカルケース    | UserPage  |
+| URL・HTMLのクラス         | ケバブケース      | user-page |
+| branch・関数・変数・定数   | キャメルケース    | userId    |
+| 不変な定数                | コンスタントケース | GLOBAL_ID |
