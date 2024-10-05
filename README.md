@@ -37,3 +37,4 @@ my vocabulary book (暫定)
 | URL・HTMLのクラス         | ケバブケース      | user-page |
 | branch・関数・変数・定数   | キャメルケース    | userId    |
 | 不変な定数                | コンスタントケース | GLOBAL_ID |
+| db                        | スネークケース    | user_id   |
