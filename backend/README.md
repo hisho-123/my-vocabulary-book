@@ -6,6 +6,7 @@
 
 
 ## 構成
+
 ```
 backend
 ├── src
@@ -13,7 +14,7 @@ backend
 |
 |
 ├── db
-|    └── my.cnf
+|    └── schema.sql
 ```
 
 ## DB
@@ -43,3 +44,16 @@ erDiagram
     USER ||--o{ VOCABULARY_BOOK : "has"
     VOCABULARY_BOOK ||--o{ WORDS : "contains"
 ```
+
+### 接続方法
+
+- dockerのビルド: docker compose up
+- docker内に入る: docker exec -it db bash
+  - mysql内に入る : mysql -u root -p
+    - password                     : root
+    - DBの確認                      : show databases;
+    - my-vocabulary-book へアクセス : use my-vocabulary-book;
+      - tableの確認                 : show tables;
+  - mysql外に出る : exit
+
+- dockerに入ると同時にmysqlへ : docker exec -it db mysql -uroot -proot
