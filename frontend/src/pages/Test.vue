@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import Button from '../components/button/index.vue'
+import Button from '../components/Button/index.vue'
 
 const count = ref(0)
 console.error('count: '+count.value)
@@ -13,8 +13,8 @@ console.error('count: '+count.value)
       color="primary"
       :content="'count: '+count"
       size="small"
-      :cancelBtn="true"
-      position="right"
+      :secondBtn="true"
+      :disabled="true"
       @click="count++"
     ></Button>
   </div>
