@@ -4,7 +4,7 @@ type Props = {
   /**
   ボタンの色
    */
-  color: 'primary' | 'black'
+  color: 'primary' | 'white'
   /**
   ボタンテキスト
    */
@@ -22,13 +22,13 @@ type Props = {
    */
   position?: 'left' | 'right'
   /**
-  キャンセルボタンの有無
+  セカンドボタンの有無
    */
-  cancelBtn?: boolean
+  secondBtn?: boolean
   /**
-  キャンセルボタンのテキスト
+  セカンドボタンのテキスト
    */
-  cancelContent?: string
+  secondContent?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -37,13 +37,13 @@ const props = withDefaults(defineProps<Props>(), {
   content: 'click',
   disabled: false,
   size: 'small',
-  cancelBtn: false,
-  cancelContent: 'cancel'
+  secondBtn: false,
+  secondContent: 'cancel'
 })
 
 const emit = defineEmits<{
   (e: 'click'): void
-  (e: 'cancel'): void
+  (e: 'second'): void
 }>()
 
 // 固定値を代入
@@ -59,30 +59,32 @@ console.error('variant: '+variant)
 
 <template>
   <div :class="position " class="flame">
+      <v-btn
+      v-if="secondBtn"
+      class="margin"
+      :color="cancelColor"
+      :size="size"
+      :variant="outlined"
+      :elevation="elevation"
+      :disabled="disabled"
+      @click="emit('second')"
+    >{{ secondContent }}</v-btn>
     <v-btn
       class="margin"
       :color="color"
       :size="size"
       :variant="variant"
       :elevation="elevation"
+      :disabled="disabled"
       @click="emit('click')"
     >{{ content }}</v-btn>
-    <v-btn
-      v-if="cancelBtn"
-      class="margin"
-      :color="cancelColor"
-      :size="size"
-      :variant="outlined"
-      :elevation="elevation"
-      @click="emit('cancel')"
-    >{{ cancelContent }}</v-btn>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .position {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   
   &-left {
     display: flex;
