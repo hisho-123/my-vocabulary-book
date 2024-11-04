@@ -28,7 +28,7 @@ type Props = {
   /**
   セカンドボタンのテキスト
    */
-  secondContent?: string
+  secondBtnContent?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -38,45 +38,41 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
   size: 'small',
   secondBtn: false,
-  secondContent: 'cancel'
+  secondBtnContent: 'cancel'
 })
 
 const emit = defineEmits<{
-  (e: 'click'): void
-  (e: 'second'): void
+  (e: 'firstClick'): void
+  (e: 'secondClick'): void
 }>()
 
-// 固定値を代入
-const position = 'position-' + props.position
-const elevation = 4
-const cancelColor = 'black'
-const outlined = 'outlined'
+const position = 'position' + props.position
 
-const variant = props.color === 'primary' ? 'elevated' : 'outlined'
-console.error('color: '+props.color)
-console.error('variant: '+variant)
+const firstBtnColor = props.secondBtn ? 'primary' : props.color === 'primary' ? 'primary' : 'black'
+const variant = firstBtnColor === 'primary' ? 'elevated' : 'outlined'
+const elevation = firstBtnColor === 'primary' ? 4 : 0
+
 </script>
 
 <template>
   <div :class="position " class="flame">
-      <v-btn
+    <v-btn
       v-if="secondBtn"
       class="margin"
-      :color="cancelColor"
+      color="black"
+      variant="outlined"
       :size="size"
-      :variant="outlined"
       :elevation="elevation"
-      :disabled="disabled"
-      @click="emit('second')"
-    >{{ secondContent }}</v-btn>
+      @click="emit('secondClick')"
+    >{{ secondBtnContent }}</v-btn>
     <v-btn
       class="margin"
-      :color="color"
+      :color="firstBtnColor"
       :size="size"
       :variant="variant"
       :elevation="elevation"
       :disabled="disabled"
-      @click="emit('click')"
+      @click="emit('firstClick')"
     >{{ content }}</v-btn>
   </div>
 </template>
@@ -86,21 +82,19 @@ console.error('variant: '+variant)
   display: flex;
   justify-content: center;
   
-  &-left {
+  &left {
     display: flex;
     justify-content: start;
   }
-  &-right {
+  &right {
     display: flex;
     justify-content: end;
   }
 }
 
 .flame {
-  min-width: 700px;
   max-height: 30px;
   margin: 16px;
-
 }
 
 .margin {
