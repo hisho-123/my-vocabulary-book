@@ -12,6 +12,7 @@
     "fix": "npm run format && npm run lint"
   },
   "dependencies": {
+    "@types/node": "^22.8.7",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-vue": "^9.30.0",
     "vite-plugin-vuetify": "^2.0.4",
