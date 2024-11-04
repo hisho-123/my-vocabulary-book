@@ -6,9 +6,14 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --write 'src/**/*.{ts,tsx,vue}'",
+    "lint": "eslint --fix 'src/**/*.{ts,tsx,vue}'",
+    "fix": "npm run format && npm run lint"
   },
   "dependencies": {
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-vue": "^9.30.0",
     "vite-plugin-vuetify": "^2.0.4",
     "vue": "^3.4.37",
     "vue-router": "^4.4.5",
@@ -16,9 +21,13 @@
   },
   "devDependencies": {
     "@mdi/font": "^7.4.47",
+    "@typescript-eslint/parser": "^8.12.2",
     "@vitejs/plugin-vue": "^5.1.2",
+    "eslint": "^9.14.0",
+    "prettier": "^3.3.3",
     "typescript": "^5.5.3",
     "vite": "^5.4.1",
+    "vue-eslint-parser": "^9.4.3",
     "vue-tsc": "^2.0.29"
   }
 }
