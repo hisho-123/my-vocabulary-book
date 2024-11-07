@@ -7,7 +7,7 @@ import { computed } from "vue";
 
 const route = useRoute();
 const currentUrl = computed(() => {
-  return route.path.substring(1)
+  return route.path.substring(1);
 });
 
 // TODO: DBから単語帳をとってきてオブジェクトの配列にする
