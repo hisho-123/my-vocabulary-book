@@ -20,11 +20,22 @@ my vocabulary book (暫定)
 | backend   | go + mySQL              |
 
 ## 構造
+
+- フロントエンドはデータの受け渡し・表示のみ
+- データのバリデーション・復習周期の計算など、
+
 ```
 ├── README.md   # このREADMEファイル
 ├── frontend    # フロントエンドのソースコード
 ├── backend     # バックエンドのソースコード
 ```
+
+## api
+
+- line api
+  - [プッシュメッセージ](https://developers.line.biz/ja/reference/messaging-api/#send-push-message)
+- deepl api free
+  - [free api](https://support.deepl.com/hc/ja/articles/360021200939-DeepL-API-Free)
 
 ## 開発ルール
 ### 命名規則
@@ -38,3 +49,7 @@ my vocabulary book (暫定)
 | branch・関数・変数・定数   | キャメルケース    | userId    |
 | 不変な定数                | コンスタントケース | GLOBAL_ID |
 | db                        | スネークケース    | user_id   |
+
+### git関連
+- ブランチ名は「issue/<チケット番号>」
+- コミットメッセージのタイトル?(1行目)に、ブランチ名を記入する

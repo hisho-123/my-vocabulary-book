@@ -9,40 +9,46 @@
 
 ```
 backend
-├── src
-|    ├── main.go
 |
+├── main.go
+|
+├── src
+|    ├── service
+|    ├── repositories
+|    └── controllers
 |
 ├── db
-|    └── schema.sql
+|    └── migrations/schema.sql
 ```
 
 ## DB
 
 ```mermaid
 erDiagram
-    USER {
+    User {
         int id PK
         varchar user_name
         timestamp create_at
     }
 
-    VOCABULARY_BOOK {
+    Vocabulary_book {
         int id PK
         int user_id FK
         varchar book_name
     }
 
-    WORDS {
+    Word {
         int id PK
         int vocabulary_book_id FK
         varchar word
         varchar translated_word
+        int study_count
+        timestamp study_at
         timestamp create_at
     }
 
-    USER ||--o{ VOCABULARY_BOOK : "has"
-    VOCABULARY_BOOK ||--o{ WORDS : "contains"
+    User ||--o{ Vocabulary_book : "has"
+    Vocabulary_book ||--o{ Word : "contains"
 ```
 
 ### 接続方法
