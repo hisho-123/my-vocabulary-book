@@ -2,12 +2,21 @@
 import { ref } from "vue";
 import { test } from "@/term/page.ts"
 
-console.log("Test");
-console.error("test");
+import Button from '../components/button/index.vue'
 
-const count = ref(0);
+const count = ref(0)
+console.error('count: '+count.value)
 </script>
 <template>
   <div>{{ test.test }}</div>
-  <v-btn @click="count++">{{ count }} </v-btn>
+  <div>
+    <Button
+      color="primary"
+      :content="'count: '+count"
+      size="small"
+      :cancelBtn="true"
+      position="right"
+      @click="count++"
+    ></Button>
+  </div>
 </template>
