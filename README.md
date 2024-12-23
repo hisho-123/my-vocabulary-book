@@ -13,9 +13,6 @@ my vocabulary book (暫定)
 - 自分だけの単語(熟語)帳を作成し、復習できるアプリ
 - よくある忘却曲線だか何だかを計算して記憶定着の良い復習頻度で復習させる
 
-### 画面遷移図
-
-![](./画面遷移図.drawio)
 
 ## 技術
 |           | 使用技術                 |
@@ -34,7 +31,7 @@ my vocabulary book (暫定)
 ├── backend     # バックエンドのソースコード
 ```
 
-## api
+## 外部api
 
 - line api
   - [プッシュメッセージ](https://developers.line.biz/ja/reference/messaging-api/#send-push-message)
