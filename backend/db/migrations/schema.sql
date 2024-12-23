@@ -5,6 +5,7 @@ use my_vocabulary_book;
 create table user (
   user_id int auto_increment,
   user_name varchar(50) not null,
+  password varchar(20),
   create_at timestamp default current_timestamp,
   primary key(user_id)
 );
