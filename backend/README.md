@@ -31,14 +31,14 @@
 
 ### ディレクトリ構成
 
-| directory            | role | this time |
-| ---                  | ---  | ---       |
-| domain               | エンティティ・モデル | model.go |
-| usecase              | ビジネスロジック | 単語帳機能 |
-| Interface/Controller | リクエストを受け取る。ユースケースを呼び出す。 |  |
-| Interface/presenter  | レスポンスのフォーマット |  |
-| Interface/gateway    |  |  |
-| Infra                | ライブラリの依存関係 | mysqlとの接続, 認証 |
+| directory            | role                                      | this time          |
+| ---                  | ---                                       | ---                |
+| domain               | エンティティ・モデル                        | model.go           |
+| usecase              | ビジネスロジック                            | 単語帳機能          |
+| Interface/Controller | リクエストを受け取る。ユースケースを呼び出す。 | crad処理           |
+| Interface/presenter  | レスポンスのフォーマット                     | crad処理           |
+| Interface/gateway    | 外部apiとの接続                             | LINE, DeepL        |
+| Infra                | ライブラリの依存関係                         | mysqlとの接続, 認証 |
 
 ```
 backend
