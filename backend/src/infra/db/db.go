@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func NewDB() *sql.DB {
+func OpenDB() *sql.DB {
 	db, err := sql.Open("mysql", "root:root@tcp(127.17.0.1:3306)/my_vocabulary_book")
 	if err != nil {
 		log.Fatal(err)
@@ -15,4 +15,3 @@ func NewDB() *sql.DB {
 	}
 	return db
 }
-
