@@ -21,12 +21,14 @@ func main() {
 	var word []domain.Word
 	for i := 0; i < 5; i++ {
 		word = append(word, domain.Word{
-			Word: "word" + strconv.Itoa(i),
+			Word:       "word" + strconv.Itoa(i),
 			Translated: "translated" + strconv.Itoa(i),
 		})
 	}
-	
+
 	gateway.CreateBookByUserId(1, "book2", word)
+
+	gateway.CreateWordByBookId(1, "word11", "translated11")
 
 	books := gateway.GetBookListByUserId(1)
 	for i, v := range books {

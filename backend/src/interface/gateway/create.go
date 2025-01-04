@@ -36,7 +36,7 @@ func CreateBookByUserId(userId int, bookName string, words []domain.Word) {
 }
 
 // 既存の単語帳に単語を登録
-func CreateWord(bookId int, word string, translated string) {
+func CreateWordByBookId(bookId int, word string, translated string) {
 	db := db.OpenDB()
 	defer db.Close()
 
