@@ -3,8 +3,10 @@ package main
 import (
 	// "github.com/gin-gonic/gin"
 
+	"backend/src/domain"
 	"backend/src/interface/gateway"
 	"fmt"
+	"strconv"
 )
 
 func main() {
@@ -15,6 +17,16 @@ func main() {
 	   		})
 	   	})
 	   	r.Run() // 0.0.0.0:8080 でサーバーを立てる */
+
+	var word []domain.Word
+	for i := 0; i < 5; i++ {
+		word = append(word, domain.Word{
+			Word: "word" + strconv.Itoa(i),
+			Translated: "translated" + strconv.Itoa(i),
+		})
+	}
+	
+	gateway.CreateBookByUserId(1, "book2", word)
 
 	books := gateway.GetBookListByUserId(1)
 	for i, v := range books {
