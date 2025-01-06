@@ -3,46 +3,27 @@ package gateway
 import (
 	"backend/src/infra/db"
 	_ "github.com/go-sql-driver/mysql"
-	"fmt"
 	"log"
 )
 
-func UpdateBook() {
+func UpdateBookNameByBookId(bookId int, bookName string) {
 	db := db.OpenDB()
 	defer db.Close()
 
-	rows, err := db.Query("select user_id, user_name from user;")
+	queryUpdateBookName := "update books set book_name = ? where book_id = ?;"
+	_, err := db.Query(queryUpdateBookName, bookName, bookId)
 	if err != nil {
 		log.Fatal(err)
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var id int
-		var name string
-		if err := rows.Scan(&id, &name); err != nil {
-			log.Fatal(err)
-		}
-		fmt.Printf("id: %d, name: %s\n", id, name)
 	}
 }
-
-func UpdateWord() {
+	
+func UpdateWordByWordId(wordId int, word string, translated string) {
 	db := db.OpenDB()
 	defer db.Close()
 
-	rows, err := db.Query("select user_id, user_name from user;")
+	queryUpdateWord := "update words set word = ?, translated_word = ? where word_id = ?;"
+	_, err := db.Query(queryUpdateWord, word, translated, wordId)
 	if err != nil {
 		log.Fatal(err)
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var id int
-		var name string
-		if err := rows.Scan(&id, &name); err != nil {
-			log.Fatal(err)
-		}
-		fmt.Printf("id: %d, name: %s\n", id, name)
 	}
 }

@@ -40,4 +40,22 @@ func main() {
 	for i, v := range words {
 		fmt.Printf("key: %v, word: %v\n", i, v.Word)
 	}
+
+	gateway.UpdateBookNameByBookId(1, "book1")
+	gateway.UpdateWordByWordId(1, "wordUpdated", "translatedUpdated")
+
+	fmt.Printf("----------\n")
+	
+	books = gateway.GetBookListByUserId(1)
+	for i, v := range books {
+		fmt.Printf("key: %v, book: %v\n", i, v.Name)
+	}
+
+	bookName, words = gateway.GetBookByBookId(1)
+	fmt.Printf("%v\n", bookName)
+	for i, v := range words {
+		fmt.Printf("key: %v, word: %v\n", i, v.Word)
+	}
+
+
 }
