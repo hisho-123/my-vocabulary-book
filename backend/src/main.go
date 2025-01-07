@@ -45,7 +45,7 @@ func main() {
 	gateway.UpdateWordByWordId(1, "wordUpdated", "translatedUpdated")
 
 	fmt.Printf("----------\n")
-	
+
 	books = gateway.GetBookListByUserId(1)
 	for i, v := range books {
 		fmt.Printf("key: %v, book: %v\n", i, v.Name)
@@ -57,5 +57,20 @@ func main() {
 		fmt.Printf("key: %v, word: %v\n", i, v.Word)
 	}
 
+	fmt.Printf("------------\n")
+	gateway.DeleteWordByWordId(1)
 
+	bookName, words = gateway.GetBookByBookId(1)
+	fmt.Printf("%v\n", bookName)
+	for i, v := range words {
+		fmt.Printf("key: %v, word: %v\n", i, v.Word)
+	}
+
+	fmt.Printf("------------\n")
+	gateway.DeleteBookByBookId(1)
+
+	books = gateway.GetBookListByUserId(1)
+	for i, v := range books {
+		fmt.Printf("key: %v, book: %v\n", i, v.Name)
+	}
 }
