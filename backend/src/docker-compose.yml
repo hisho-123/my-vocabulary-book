@@ -9,7 +9,7 @@ services:
       MYSQL_DATABASE:  my_vocabulary_book
       TZ: "Asia/Tokyo"
     volumes:
-      - ./migrations:/docker-entrypoint-initdb.d
+      - ./infra/db/migrations:/docker-entrypoint-initdb.d
     ports:
       - 3306:3306
     restart: always
