@@ -31,10 +31,8 @@ func GetUser(userName string) (userId int, hashedPassword string, err error) {
 	userRows := db.QueryRow(queryGetUser, userName)
 
 	if err := userRows.Scan(&userId, &hashedPassword); err != nil {
-		if err != nil {
-			log.Fatal(err)
-			return 0, "", fmt.Errorf("failed to create user")
-		}
+		log.Fatal(err)
+		return 0, "", fmt.Errorf("failed to create user")
 	}
 
 	return userId, hashedPassword, nil
