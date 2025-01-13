@@ -33,12 +33,12 @@
 
 | directory            | role                                      | this time          |
 | ---                  | ---                                       | ---                |
-| domain               | エンティティ・モデル                        | model.go           |
-| usecase              | ビジネスロジック                            | 単語帳機能          |
-| Interface/Controller | リクエストを受け取る。ユースケースを呼び出す。 | crad処理           |
-| Interface/presenter  | レスポンスのフォーマット                     | crad処理           |
-| Interface/gateway    | 外部apiとの接続                             | LINE, DeepL        |
-| Infra                | ライブラリの依存関係                         | mysqlとの接続, 認証 |
+| domain               | エンティティ・モデル                        | model.go, 共通機能  |
+| usecase              | ビジネスロジック                            | 復習時期の計算, 認証 |
+| Interface/Controller | リクエストを受け取る。ユースケースを呼び出す。 | frontとのやり取り(入力) |
+| Interface/presenter  | レスポンスのフォーマット                     | frontとのやり取り(出力) |
+| Interface/gateway    | 外部apiとの接続                             | DB, LINE, DeepL       |
+| Infra                | ライブラリの依存関係                         | DBマイグレーション  |
 
 ```
 backend
@@ -47,6 +47,7 @@ backend
 |
 ├── src
 |    ├── domain
+|    |    └── model
 |    ├── usecase
 |    ├── Interface
 |    |    ├── controller
