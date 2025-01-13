@@ -40,6 +40,8 @@
 | Interface/gateway    | 外部apiとの接続                             | DB, LINE, DeepL       |
 | Infra                | ライブラリの依存関係                         | DBマイグレーション  |
 
+＊本来のクリーンアーキテクチャでは、interface/gatewayではデータの取得しかやらないと思うが、今回はむしろコードが煩雑になるため、データの整形までやる。
+
 ```
 backend
 |
