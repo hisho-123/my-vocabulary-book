@@ -1,23 +1,21 @@
 package domain
 
-// "time"
-
 type User struct {
-	Id       *int
-	Name     string
-	Password string
+	Id       *int   `json:"userId"`
+	Name     string `json:"userName"`
+	Password string `json:"password"`
 }
 
 type Book struct {
-	Id     *int
-	UserId int
-	Name   string
-	// RecentReview time.Time
+	Id          *int    `json:"bookId"`
+	UserId      int     `json:"userId"`
+	Name        string  `json:"bookName"`
+	FirstReview *string `json:"firstReview"`
 }
 
 type Word struct {
-	Id         *int
-	BookId     int
-	Word       string
-	Translated string
+	Id         *int   `json:"wordId"`
+	BookId     int    `json:"bookId"`
+	Word       string `json:"word"`
+	Translated string `json:"translated"`
 }

@@ -35,9 +35,8 @@
 | ---                  | ---                                       | ---                |
 | domain               | エンティティ・モデル                        | model.go, 共通機能  |
 | usecase              | ビジネスロジック                            | 復習時期の計算, 認証 |
-| Interface/Controller | リクエストを受け取る。ユースケースを呼び出す。 | frontとのやり取り(入力) |
-| Interface/presenter  | レスポンスのフォーマット                     | frontとのやり取り(出力) |
-| Interface/gateway    | 外部apiとの接続                             | DB, LINE, DeepL       |
+| Interface/Controller | apiの処理、usecaseを呼び出して実現           | net/httpを使用      |
+| Interface/gateway    | 外部apiとの接続                             | front, DB, LINE, DeepL    |
 | Infra                | ライブラリの依存関係                         | DBマイグレーション  |
 
 ＊本来のクリーンアーキテクチャでは、interface/gatewayではデータの取得しかやらないと思うが、今回はむしろコードが煩雑になるため、データの整形までやる。

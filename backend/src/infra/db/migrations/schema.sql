@@ -5,7 +5,7 @@ use my_vocabulary_book;
 create table users (
   user_id int auto_increment,
   user_name varchar(50) not null,
-  password varchar(20),
+  password varchar(20) not null,
   create_at timestamp default current_timestamp,
   primary key(user_id)
 );
@@ -14,7 +14,7 @@ create table books (
   book_id int auto_increment,
   user_id int,
   book_name varchar(10) not null,
-  recent_review timestamp,
+  first_review varchar,
   create_at timestamp default current_timestamp,
   primary key(book_id),
   foreign key(user_id)
