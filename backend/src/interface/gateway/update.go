@@ -1,6 +1,7 @@
 package gateway
 
 import (
+	"backend/src/domain"
 	"backend/src/infra/db"
 	"fmt"
 	"log"
@@ -16,16 +17,17 @@ func UpdateBookNameByBookId(bookId int, bookName string) error{
 	res, err := db.Exec(queryUpdateBookName, bookName, bookId)
 	if err != nil {
 		log.Fatal(err)
-		return fmt.Errorf("failed to update book")
+		return fmt.Errorf(domain.InternalServerError)
 	}
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
 		log.Fatal(err)
+		return fmt.Errorf("failed to query get words")
 		return fmt.Errorf("failed to check rows affected")
 	}
 	if rowsAffected == 0 {
 		log.Printf("no book found with book_id %d", bookId)
-		return fmt.Errorf("no book found with book_id %d", bookId)
+		return fmt.Errorf(domain.InternalServerError)
 	}
 	
 	return nil
@@ -39,16 +41,16 @@ func UpdateWordByWordId(wordId int, word string, translated string) error{
 	res, err := db.Exec(queryUpdateWord, word, translated, wordId)
 	if err != nil {
 		log.Fatal(err)
-		return fmt.Errorf("failed to update word")
+		return fmt.Errorf(domain.InternalServerError)
 	}
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
 		log.Fatal(err)
-		return fmt.Errorf("failed to check rows affected")
+		return fmt.Errorf(domain.InternalServerError)
 	}
 	if rowsAffected == 0 {
 		log.Printf("no word found with word_id %d", wordId)
-		return fmt.Errorf("no word found with word_id %d", wordId)
+		return fmt.Errorf(domain.InternalServerError)
 	}
 
 	return nil

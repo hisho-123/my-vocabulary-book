@@ -4,6 +4,8 @@ import (
 	"backend/src/usecase"
 	"encoding/json"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type LoginRequest struct {
@@ -11,21 +13,25 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
-func LoginHandler(w http.ResponseWriter, r *http.Request) {
-	var request LoginRequest
-	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
-		http.Error(w, "invalid input", http.StatusBadRequest)
+func LoginHandler(c *gin.Context) {
+	var requestBody LoginRequest
+	if err := c.ShouldBindJSON(&requestBody); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid JSON body",
+		})
 		return
 	}
 
 	input := usecase.LoginInput{
-		UserName: request.UserName,
-		Password: request.Password,
+		UserName: requestBody.UserName,
+		Password: requestBody.Password,
 	}
-	
+
 	output, err := usecase.LoginValidation(input)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusUnauthorized)
+		switch err.Error() {
+			case ""
+		}
 	}
 
 	w.Header().Set("Content-Type", "application/json")

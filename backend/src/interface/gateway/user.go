@@ -1,6 +1,7 @@
 package gateway
 
 import (
+	"backend/src/domain"
 	"backend/src/infra/db"
 	"fmt"
 	"log"
@@ -26,13 +27,13 @@ func CreateUserToDB(userName string, hashedPassword string) error {
 func GetUser(userName string) (userId int, hashedPassword string, err error) {
 	db := db.OpenDB()
 	defer db.Close()
-	
+
 	queryGetUser := "select user_id, password from users where user_name = ?;"
 	userRows := db.QueryRow(queryGetUser, userName)
 
 	if err := userRows.Scan(&userId, &hashedPassword); err != nil {
 		log.Fatal(err)
-		return 0, "", fmt.Errorf("failed to create user")
+		return 0, "", fmt.Errorf(domain.InternalServerError)
 	}
 
 	return userId, hashedPassword, nil
@@ -46,16 +47,16 @@ func DeleteUserByUserId(userId int) error {
 	res, err := db.Exec(queryDeleteUser, userId)
 	if err != nil {
 		log.Fatal(err)
-		return fmt.Errorf("failed to delete user")
+		return fmt.Errorf(domain.InternalServerError)
 	}
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
 		log.Fatal(err)
-		return fmt.Errorf("failed to check rows affected")
+		return fmt.Errorf(domain.InternalServerError)
 	}
 	if rowsAffected == 0 {
 		log.Printf("no user found with user_id %d", userId)
-		return fmt.Errorf("no user found with user_id %d", userId)
+		return fmt.Errorf(domain.InternalServerError)
 	}
 
 	return nil

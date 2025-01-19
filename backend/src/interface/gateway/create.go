@@ -18,7 +18,7 @@ func CreateBookByUserId(userId int, bookName string, words []domain.Word) error 
 	_, err := db.Exec(queryCreateBook, strconv.Itoa(userId), bookName)
 	if err != nil {
 		log.Fatal(err)
-		return fmt.Errorf("failed to create book")
+		return fmt.Errorf(domain.InternalServerError)
 	}
 
 	var bookId string
@@ -26,7 +26,7 @@ func CreateBookByUserId(userId int, bookName string, words []domain.Word) error 
 	bookIdRow := db.QueryRow(queryGetBookId, bookName)
 	if err := bookIdRow.Scan(&bookId); err != nil {
 		log.Fatal(err)
-		return fmt.Errorf("failed to get book_id")
+		return fmt.Errorf(domain.InternalServerError)
 	}
 
 	queryCreateWord := "insert into words (book_id, word, translated_word) values (?, ?, ?)"
@@ -37,7 +37,7 @@ func CreateBookByUserId(userId int, bookName string, words []domain.Word) error 
 			db.Query(queryDeleteWords, bookId)
 
 			log.Fatal(err)
-			return fmt.Errorf("failed to create words")
+			return fmt.Errorf(domain.InternalServerError)
 		}
 	}
 	return nil
@@ -51,7 +51,7 @@ func CreateWordByBookId(bookId int, word string, translated string) error {
 	queryCreateWord := "insert into words (book_id, word, translated_word) values (?, ?, ?)"
 	_, err := db.Query(queryCreateWord, bookId, word, translated)
 	if err != nil {
-		return fmt.Errorf("failed to create word")
+		return fmt.Errorf(domain.InternalServerError)
 	}
 	return nil
 }

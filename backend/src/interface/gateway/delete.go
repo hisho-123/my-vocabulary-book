@@ -1,6 +1,7 @@
 package gateway
 
 import (
+	"backend/src/domain"
 	"backend/src/infra/db"
 	"fmt"
 	"log"
@@ -16,16 +17,16 @@ func DeleteBookByBookId(bookId int) error {
 	res, err := db.Exec(queryDeleteBook, bookId)
 	if err != nil {
 		log.Fatal(err)
-		return fmt.Errorf("failed to delete book")
+		return fmt.Errorf(domain.InternalServerError)
 	}
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
 		log.Fatal(err)
-		return fmt.Errorf("failed to check rows affected")
+		return fmt.Errorf(domain.InternalServerError)
 	}
 	if rowsAffected == 0 {
 		log.Printf("no book found with book_id %d", bookId)
-		return fmt.Errorf("no book found with book_id %d", bookId)
+		return fmt.Errorf(domain.InternalServerError)
 	}
 
 	return nil
@@ -39,16 +40,16 @@ func DeleteWordByWordId(wordId int) error {
 	res, err := db.Exec(queryDeleteWord, wordId)
 	if err != nil {
 		log.Fatal(err)
-		return fmt.Errorf("failed to delete word")
+		return fmt.Errorf(domain.InternalServerError)
 	}
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
 		log.Fatal(err)
-		return fmt.Errorf("failed to check rows affected")
+		return fmt.Errorf(domain.InternalServerError)
 	}
 	if rowsAffected == 0 {
 		log.Printf("no word found with word_id %d", wordId)
-		return fmt.Errorf("no book found with book_id %d", wordId)
+		return fmt.Errorf(domain.InternalServerError)
 	}
 
 	return nil

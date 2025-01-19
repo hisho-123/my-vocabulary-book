@@ -25,13 +25,13 @@ func GetBookListByUserId(userId int) (books []domain.Book, err error) {
 	rows, err := db.Query(queryGetBookList, strconv.Itoa(userId))
 	if err != nil {
 		log.Fatal(err)
-		return nil, fmt.Errorf("failed to query get books")
+		return nil, fmt.Errorf(domain.InternalServerError)
 	}
 
 	for rows.Next() {
 		if err := rows.Scan(&bookId, &bookName, &firstReview); err != nil {
 			log.Fatal(err)
-			return nil, fmt.Errorf("failed to scan book")
+			return nil, fmt.Errorf(domain.InternalServerError)
 		}
 
 		books = append(books, domain.Book{
@@ -44,7 +44,7 @@ func GetBookListByUserId(userId int) (books []domain.Book, err error) {
 
 	if err := rows.Err(); err != nil {
 		log.Fatal(err)
-		return nil, fmt.Errorf("rows iteration error")
+		return nil, fmt.Errorf(domain.InternalServerError)
 	}
 
 	return books, nil
@@ -60,10 +60,10 @@ func GetBookByBookId(bookId int) (bookName string, words []domain.Word, err erro
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			log.Fatal(err)
-			return "", nil, fmt.Errorf("word not found")
+			return "", nil, fmt.Errorf(domain.InternalServerError)
 		}
 		log.Fatal(err)
-		return "", nil, fmt.Errorf("failed to get words")
+		return "", nil, fmt.Errorf(domain.InternalServerError)
 	}
 
 	// 単語取得
@@ -71,7 +71,7 @@ func GetBookByBookId(bookId int) (bookName string, words []domain.Word, err erro
 	wordsRows, err := db.Query(queryRowWords, bookId)
 	if err != nil {
 		log.Fatal(err)
-		return "", nil, fmt.Errorf("failed to query get words")
+		return "", nil, fmt.Errorf(domain.InternalServerError)
 	}
 
 	var wordId int
@@ -81,7 +81,7 @@ func GetBookByBookId(bookId int) (bookName string, words []domain.Word, err erro
 	for wordsRows.Next() {
 		if err := wordsRows.Scan(&wordId, &word, &translated); err != nil {
 			log.Fatal(err)
-			return "", nil, fmt.Errorf("failed to scan word")
+			return "", nil, fmt.Errorf("failed to query get words")
 		}
 
 		words = append(words, domain.Word{
@@ -94,7 +94,7 @@ func GetBookByBookId(bookId int) (bookName string, words []domain.Word, err erro
 
 	if err := wordsRows.Err(); err != nil {
 		log.Fatal(err)
-		return "", nil, fmt.Errorf("wordsRows iteration error")
+		return "", nil, fmt.Errorf(domain.InternalServerError)
 	}
 
 	return bookName, words, nil
