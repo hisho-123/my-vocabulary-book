@@ -16,7 +16,7 @@ func CreateUserToDB(userName string, hashedPassword string) error {
 
 	_, err := db.Exec(queryCreateUser, userName, hashedPassword)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return fmt.Errorf("failed to create user")
 	}
 
@@ -32,7 +32,7 @@ func GetUser(userName string) (userId int, hashedPassword string, err error) {
 	userRows := db.QueryRow(queryGetUser, userName)
 
 	if err := userRows.Scan(&userId, &hashedPassword); err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return 0, "", fmt.Errorf(domain.InternalServerError)
 	}
 
@@ -46,12 +46,12 @@ func DeleteUserByUserId(userId int) error {
 	queryDeleteUser := "delete from users where user_id = ?;"
 	res, err := db.Exec(queryDeleteUser, userId)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return fmt.Errorf(domain.InternalServerError)
 	}
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return fmt.Errorf(domain.InternalServerError)
 	}
 	if rowsAffected == 0 {

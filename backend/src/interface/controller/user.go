@@ -1,15 +1,16 @@
-package authController
+package controller
 
 import (
 	"backend/src/usecase"
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type LoginRequest struct {
-	UserName string `json:"userId"`
+	UserName string `json:"userName"`
 	Password string `json:"password"`
 }
 
@@ -29,11 +30,19 @@ func LoginHandler(c *gin.Context) {
 
 	output, err := usecase.LoginValidation(input)
 	if err != nil {
-		switch err.Error() {
-			case ""
-		}
+		c.JSON(statusCode(err), gin.H{
+			"error": "permission denied",
+		})
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(output)
+	jsonOutput, err := json.Marshal(output)
+	if err != nil {
+		log.Println("error: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid JSON body",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, jsonOutput)
 }

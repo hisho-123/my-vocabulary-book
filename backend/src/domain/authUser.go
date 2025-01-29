@@ -1,6 +1,8 @@
 package domain
 
 import (
+	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"time"
@@ -13,14 +15,19 @@ import (
 func PasswordHash(password string) (string, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		return "", err
+		log.Println(err)
+		return "", fmt.Errorf(InternalServerError)
 	}
 	return string(hashedPassword), nil
 }
 
 // パスワード認証
-func CompareHashPassword(requestPassword string, hashedPassword string) error {
-	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(requestPassword))
+func ComparePassword(requestPassword string, hashedPassword string) error {
+	if err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(requestPassword)); err != nil {
+		log.Println(err)
+		return fmt.Errorf(Unauthorized)
+	}
+	return nil
 }
 
 type Claims struct {
@@ -51,7 +58,8 @@ func ValidateToken(requestToken string) (*Claims, error) {
 		return os.Getenv("JWT_KEY"), nil
 	})
 	if err != nil || !token.Valid {
-		return nil, err
+		log.Println(err)
+		return nil, fmt.Errorf(Unauthorized)
 	}
 
 	return claims, nil

@@ -16,12 +16,12 @@ func DeleteBookByBookId(bookId int) error {
 	queryDeleteBook := "delete from books where book_id = ?;"
 	res, err := db.Exec(queryDeleteBook, bookId)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return fmt.Errorf(domain.InternalServerError)
 	}
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return fmt.Errorf(domain.InternalServerError)
 	}
 	if rowsAffected == 0 {
@@ -39,12 +39,12 @@ func DeleteWordByWordId(wordId int) error {
 	queryDeleteWord := "delete from words where word_id = ?;"
 	res, err := db.Exec(queryDeleteWord, wordId)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return fmt.Errorf(domain.InternalServerError)
 	}
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return fmt.Errorf(domain.InternalServerError)
 	}
 	if rowsAffected == 0 {

@@ -6,13 +6,13 @@ import (
 )
 
 type LoginInput struct {
-	UserName		string
-	Password 	string
+	UserName		string	`json:"userName"`
+	Password 	string		`json:"password"`
 }
 
 type LoginOutput struct {
-	UserId int
-	Token string
+	UserId int		`json:"userId"`
+	Token string 	`json:"token"`
 }
 
 func CreateUser(userName string, password string) error {
@@ -34,7 +34,7 @@ func LoginValidation(input LoginInput) (*LoginOutput, error) {
 		return nil, err
 	}
 
-	if err := domain.CompareHashPassword(input.Password, hashPassword); err != nil {
+	if err := domain.ComparePassword(input.Password, hashPassword); err != nil {
 		return nil, err
 	}
 	

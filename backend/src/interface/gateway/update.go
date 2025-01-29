@@ -9,19 +9,19 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func UpdateBookNameByBookId(bookId int, bookName string) error{
+func UpdateBookNameByBookId(bookId int, bookName string) error {
 	db := db.OpenDB()
 	defer db.Close()
 
 	queryUpdateBookName := "update books set book_name = ? where book_id = ?;"
 	res, err := db.Exec(queryUpdateBookName, bookName, bookId)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return fmt.Errorf(domain.InternalServerError)
 	}
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return fmt.Errorf("failed to query get words")
 		return fmt.Errorf("failed to check rows affected")
 	}
@@ -29,23 +29,23 @@ func UpdateBookNameByBookId(bookId int, bookName string) error{
 		log.Printf("no book found with book_id %d", bookId)
 		return fmt.Errorf(domain.InternalServerError)
 	}
-	
+
 	return nil
 }
 
-func UpdateWordByWordId(wordId int, word string, translated string) error{
+func UpdateWordByWordId(wordId int, word string, translated string) error {
 	db := db.OpenDB()
 	defer db.Close()
 
 	queryUpdateWord := "update words set word = ?, translated_word = ? where word_id = ?;"
 	res, err := db.Exec(queryUpdateWord, word, translated, wordId)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return fmt.Errorf(domain.InternalServerError)
 	}
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return fmt.Errorf(domain.InternalServerError)
 	}
 	if rowsAffected == 0 {
