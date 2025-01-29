@@ -9,13 +9,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type LoginRequest struct {
+type UserRequest struct {
 	UserName string `json:"userName"`
 	Password string `json:"password"`
 }
 
 func LoginHandler(c *gin.Context) {
-	var requestBody LoginRequest
+	var requestBody UserRequest
 	if err := c.ShouldBindJSON(&requestBody); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "invalid JSON body",
