@@ -15,16 +15,17 @@ import (
 func PasswordHash(password string) (string, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		log.Println(err)
+		log.Println("error: ", err)
 		return "", fmt.Errorf(InternalServerError)
 	}
+	fmt.Println("\n" + string(hashedPassword) + "\n")
 	return string(hashedPassword), nil
 }
 
 // パスワード認証
 func ComparePassword(requestPassword string, hashedPassword string) error {
 	if err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(requestPassword)); err != nil {
-		log.Println(err)
+		log.Println("error: ", err)
 		return fmt.Errorf(Unauthorized)
 	}
 	return nil
@@ -58,7 +59,7 @@ func ValidateToken(requestToken string) (*Claims, error) {
 		return os.Getenv("JWT_KEY"), nil
 	})
 	if err != nil || !token.Valid {
-		log.Println(err)
+		log.Println("error: ", err)
 		return nil, fmt.Errorf(Unauthorized)
 	}
 

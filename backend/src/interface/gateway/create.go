@@ -17,7 +17,7 @@ func CreateBookByUserId(userId int, bookName string, words []domain.Word) error 
 
 	_, err := db.Exec(queryCreateBook, strconv.Itoa(userId), bookName)
 	if err != nil {
-		log.Println(err)
+		log.Println("error: ", err)
 		return fmt.Errorf(domain.InternalServerError)
 	}
 
@@ -25,7 +25,7 @@ func CreateBookByUserId(userId int, bookName string, words []domain.Word) error 
 	queryGetBookId := "select book_id from books where book_name = ?"
 	bookIdRow := db.QueryRow(queryGetBookId, bookName)
 	if err := bookIdRow.Scan(&bookId); err != nil {
-		log.Println(err)
+		log.Println("error: ", err)
 		return fmt.Errorf(domain.InternalServerError)
 	}
 
@@ -36,7 +36,7 @@ func CreateBookByUserId(userId int, bookName string, words []domain.Word) error 
 			queryDeleteWords := "delete from words where book_id = ?;"
 			db.Query(queryDeleteWords, bookId)
 
-			log.Println(err)
+			log.Println("error: ", err)
 			return fmt.Errorf(domain.InternalServerError)
 		}
 	}

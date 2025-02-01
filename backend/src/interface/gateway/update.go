@@ -16,12 +16,12 @@ func UpdateBookNameByBookId(bookId int, bookName string) error {
 	queryUpdateBookName := "update books set book_name = ? where book_id = ?;"
 	res, err := db.Exec(queryUpdateBookName, bookName, bookId)
 	if err != nil {
-		log.Println(err)
+		log.Println("error: ", err)
 		return fmt.Errorf(domain.InternalServerError)
 	}
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
-		log.Println(err)
+		log.Println("error: ", err)
 		return fmt.Errorf("failed to query get words")
 		return fmt.Errorf("failed to check rows affected")
 	}
@@ -40,12 +40,12 @@ func UpdateWordByWordId(wordId int, word string, translated string) error {
 	queryUpdateWord := "update words set word = ?, translated_word = ? where word_id = ?;"
 	res, err := db.Exec(queryUpdateWord, word, translated, wordId)
 	if err != nil {
-		log.Println(err)
+		log.Println("error: ", err)
 		return fmt.Errorf(domain.InternalServerError)
 	}
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
-		log.Println(err)
+		log.Println("error: ", err)
 		return fmt.Errorf(domain.InternalServerError)
 	}
 	if rowsAffected == 0 {
