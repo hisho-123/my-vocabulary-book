@@ -14,7 +14,7 @@ create table books (
   book_id int auto_increment,
   user_id int,
   book_name varchar(10) not null,
-  first_review varchar,
+  first_review varchar(10),
   create_at timestamp default current_timestamp,
   primary key(book_id),
   foreign key(user_id)

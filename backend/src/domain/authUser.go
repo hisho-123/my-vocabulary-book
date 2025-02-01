@@ -55,7 +55,7 @@ func CreateToken(userId int) (string, error) {
 func ValidateToken(requestToken string) (*Claims, error) {
 	claims := &Claims{}
 	token, err := jwt.ParseWithClaims(requestToken, claims, func(token *jwt.Token) (interface{}, error) {
-		return os.Getenv("JWT_KEY"), nil
+		return []byte(os.Getenv("JWT_KEY")), nil
 	})
 	if err != nil || !token.Valid {
 		log.Println("error: ", err)

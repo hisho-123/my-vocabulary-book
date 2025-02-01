@@ -29,3 +29,13 @@ type AuthOutput struct {
 	UserId int `json:"userId"`
 	Token  string `json:"token"`
 }
+
+type CreateWordInput struct {
+	Word       string `json:"word"`
+	Translated string `json:"translated"`
+}
+
+type CreateBookInput struct {
+	BookName string `json:"bookName"`
+	Words    []Word `json:"words"`
+}

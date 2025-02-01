@@ -9,13 +9,13 @@ import (
 )
 
 // 単語帳の作成
-func CreateBookByUserId(userId int, bookName string, words []domain.Word) error {
+func CreateBookByUserId(userId int, book domain.CreateBookInput) error {
 	db := db.OpenDB()
 	defer db.Close()
 
 	queryCreateBook := "insert into books (user_id, book_name) values (?, ?);"
 
-	_, err := db.Exec(queryCreateBook, strconv.Itoa(userId), bookName)
+	_, err := db.Exec(queryCreateBook, strconv.Itoa(userId), book.BookName)
 	if err != nil {
 		log.Println("error: ", err)
 		return fmt.Errorf(domain.InternalServerError)
@@ -23,14 +23,14 @@ func CreateBookByUserId(userId int, bookName string, words []domain.Word) error 
 
 	var bookId string
 	queryGetBookId := "select book_id from books where book_name = ?"
-	bookIdRow := db.QueryRow(queryGetBookId, bookName)
+	bookIdRow := db.QueryRow(queryGetBookId, book.BookName)
 	if err := bookIdRow.Scan(&bookId); err != nil {
 		log.Println("error: ", err)
 		return fmt.Errorf(domain.InternalServerError)
 	}
 
 	queryCreateWord := "insert into words (book_id, word, translated_word) values (?, ?, ?)"
-	for _, v := range words {
+	for _, v := range book.Words {
 		_, err := db.Query(queryCreateWord, bookId, v.Word, v.Translated)
 		if err != nil {
 			queryDeleteWords := "delete from words where book_id = ?;"
