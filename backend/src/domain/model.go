@@ -19,3 +19,13 @@ type Word struct {
 	Word       string `json:"word"`
 	Translated string `json:"translated"`
 }
+
+type AuthInput struct {
+	UserName string `json:"userName"`
+	Password string `json:"password"`
+}
+
+type AuthOutput struct {
+	UserId int `json:"userId"`
+	Token  string `json:"token"`
+}

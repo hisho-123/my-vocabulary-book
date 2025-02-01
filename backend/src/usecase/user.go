@@ -5,17 +5,7 @@ import (
 	"backend/src/interface/gateway"
 )
 
-type AuthInput struct {
-	UserName string `json:"userName"`
-	Password string `json:"password"`
-}
-
-type AuthOutput struct {
-	UserId int `json:"userId"`
-	Token  string `json:"token"`
-}
-
-func CreateUser(input AuthInput) (*AuthOutput, error) {
+func CreateUser(input domain.AuthInput) (*domain.AuthOutput, error) {
 	hashedPassword, err := domain.PasswordHash(input.Password)
 	if err != nil {
 		return nil, err
@@ -27,13 +17,13 @@ func CreateUser(input AuthInput) (*AuthOutput, error) {
 
 	token, err := domain.CreateToken(userId)
 
-	return &AuthOutput{
+	return &domain.AuthOutput{
 		UserId: userId,
 		Token:  token,
 	}, nil
 }
 
-func LoginValidation(input AuthInput) (*AuthOutput, error) {
+func LoginValidation(input domain.AuthInput) (*domain.AuthOutput, error) {
 	userId, hashPassword, err := gateway.GetUser(input.UserName)
 	if err != nil {
 		return nil, err
@@ -48,7 +38,7 @@ func LoginValidation(input AuthInput) (*AuthOutput, error) {
 		return nil, err
 	}
 
-	return &AuthOutput{
+	return &domain.AuthOutput{
 		UserId: userId,
 		Token:  token,
 	}, nil
