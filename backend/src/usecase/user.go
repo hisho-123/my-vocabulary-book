@@ -3,7 +3,6 @@ package usecase
 import (
 	"backend/src/domain"
 	"backend/src/interface/gateway"
-	"strconv"
 )
 
 type AuthInput struct {
@@ -12,7 +11,7 @@ type AuthInput struct {
 }
 
 type AuthOutput struct {
-	UserId string `json:"userId"`
+	UserId int `json:"userId"`
 	Token  string `json:"token"`
 }
 
@@ -29,7 +28,7 @@ func CreateUser(input AuthInput) (*AuthOutput, error) {
 	token, err := domain.CreateToken(userId)
 
 	return &AuthOutput{
-		UserId: strconv.Itoa(userId),
+		UserId: userId,
 		Token:  token,
 	}, nil
 }
@@ -50,7 +49,7 @@ func LoginValidation(input AuthInput) (*AuthOutput, error) {
 	}
 
 	return &AuthOutput{
-		UserId: strconv.Itoa(userId),
+		UserId: userId,
 		Token:  token,
 	}, nil
 }

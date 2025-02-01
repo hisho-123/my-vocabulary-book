@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -32,7 +31,7 @@ func ComparePassword(requestPassword string, hashedPassword string) error {
 }
 
 type Claims struct {
-	UserId string `json:"userid"`
+	UserId int `json:"userid"`
 	jwt.RegisteredClaims
 }
 
@@ -41,7 +40,7 @@ func CreateToken(userId int) (string, error) {
 	time := time.Now().Add(24 * time.Hour)
 
 	claims := &Claims{
-		UserId: strconv.Itoa(userId),
+		UserId: userId,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time),
 		},

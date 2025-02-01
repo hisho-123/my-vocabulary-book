@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"backend/src/domain"
 	"backend/src/usecase"
 	"net/http"
 
@@ -8,7 +9,7 @@ import (
 )
 
 func RegisterHandler(c *gin.Context) {
-	var requestBody usecase.AuthInput
+	var requestBody domain.AuthInput
 	if err := c.ShouldBindJSON(&requestBody); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Invalid JSON body.",
@@ -21,13 +22,14 @@ func RegisterHandler(c *gin.Context) {
 		c.JSON(statusCode(err), gin.H{
 			"error": "Could not create user.",
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, output)
 }
 
 func LoginHandler(c *gin.Context) {
-	var requestBody usecase.AuthInput
+	var requestBody domain.AuthInput
 	if err := c.ShouldBindJSON(&requestBody); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Invalid JSON body.",
@@ -40,6 +42,7 @@ func LoginHandler(c *gin.Context) {
 		c.JSON(statusCode(err), gin.H{
 			"error": "Permission denied.",
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, output)
