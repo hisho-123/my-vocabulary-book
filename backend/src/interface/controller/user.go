@@ -11,7 +11,7 @@ func RegisterHandler(c *gin.Context) {
 	var requestBody usecase.AuthInput
 	if err := c.ShouldBindJSON(&requestBody); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "invalid JSON body",
+			"error": "Invalid JSON body.",
 		})
 		return
 	}
@@ -30,7 +30,7 @@ func LoginHandler(c *gin.Context) {
 	var requestBody usecase.AuthInput
 	if err := c.ShouldBindJSON(&requestBody); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "invalid JSON body",
+			"error": "Invalid JSON body.",
 		})
 		return
 	}
@@ -38,7 +38,7 @@ func LoginHandler(c *gin.Context) {
 	output, err := usecase.LoginValidation(requestBody)
 	if err != nil {
 		c.JSON(statusCode(err), gin.H{
-			"error": "permission denied",
+			"error": "Permission denied.",
 		})
 	}
 
