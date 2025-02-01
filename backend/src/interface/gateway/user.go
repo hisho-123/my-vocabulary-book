@@ -8,19 +8,25 @@ import (
 )
 
 // user作成
-func CreateUserToDB(userName string, hashedPassword string) error {
+func CreateUser(userName string, hashedPassword string) (userId int, err error) {
 	db := db.OpenDB()
 	defer db.Close()
 
 	queryCreateUser := "insert into users (user_name, password) values (?, ?);"
 
-	_, err := db.Exec(queryCreateUser, userName, hashedPassword)
+	_, err = db.Exec(queryCreateUser, userName, hashedPassword)
 	if err != nil {
-		log.Println(err)
-		return fmt.Errorf("failed to create user")
+		log.Println("error: ", err)
+		return 0, fmt.Errorf("failed to create user")
 	}
 
-	return nil
+	userId, hashedPassword, err = GetUser(userName)
+	if err != nil {
+		log.Println("error: ", err)
+		return 0, fmt.Errorf(domain.InternalServerError)
+	}
+
+	return userId, nil
 }
 
 // user取得
@@ -32,7 +38,7 @@ func GetUser(userName string) (userId int, hashedPassword string, err error) {
 	userRows := db.QueryRow(queryGetUser, userName)
 
 	if err := userRows.Scan(&userId, &hashedPassword); err != nil {
-		log.Println(err)
+		log.Println("error: ", err)
 		return 0, "", fmt.Errorf(domain.InternalServerError)
 	}
 
@@ -46,12 +52,12 @@ func DeleteUserByUserId(userId int) error {
 	queryDeleteUser := "delete from users where user_id = ?;"
 	res, err := db.Exec(queryDeleteUser, userId)
 	if err != nil {
-		log.Println(err)
+		log.Println("error: ", err)
 		return fmt.Errorf(domain.InternalServerError)
 	}
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
-		log.Println(err)
+		log.Println("error: ", err)
 		return fmt.Errorf(domain.InternalServerError)
 	}
 	if rowsAffected == 0 {

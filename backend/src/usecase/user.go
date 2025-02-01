@@ -3,32 +3,38 @@ package usecase
 import (
 	"backend/src/domain"
 	"backend/src/interface/gateway"
+	"strconv"
 )
 
-type LoginInput struct {
-	UserName		string	`json:"userName"`
-	Password 	string		`json:"password"`
+type AuthInput struct {
+	UserName string `json:"userName"`
+	Password string `json:"password"`
 }
 
-type LoginOutput struct {
-	UserId int		`json:"userId"`
-	Token string 	`json:"token"`
+type AuthOutput struct {
+	UserId string `json:"userId"`
+	Token  string `json:"token"`
 }
 
-func CreateUser(userName string, password string) error {
-	hashedPassword, err := domain.PasswordHash(password)	
+func CreateUser(input AuthInput) (*AuthOutput, error) {
+	hashedPassword, err := domain.PasswordHash(input.Password)
 	if err != nil {
-		return err
+		return nil, err
+	}
+	userId, err := gateway.CreateUser(input.UserName, hashedPassword)
+	if err != nil {
+		return nil, err
 	}
 
-	if err := gateway.CreateUserToDB(userName, hashedPassword); err != nil {
-		return err
-	}
-	
-	return nil
+	token, err := domain.CreateToken(userId)
+
+	return &AuthOutput{
+		UserId: strconv.Itoa(userId),
+		Token:  token,
+	}, nil
 }
 
-func LoginValidation(input LoginInput) (*LoginOutput, error) {
+func LoginValidation(input AuthInput) (*AuthOutput, error) {
 	userId, hashPassword, err := gateway.GetUser(input.UserName)
 	if err != nil {
 		return nil, err
@@ -37,14 +43,14 @@ func LoginValidation(input LoginInput) (*LoginOutput, error) {
 	if err := domain.ComparePassword(input.Password, hashPassword); err != nil {
 		return nil, err
 	}
-	
+
 	token, err := domain.CreateToken(userId)
 	if err != nil {
 		return nil, err
 	}
-	
-	return &LoginOutput{
-		UserId: userId,
-		Token: token,
+
+	return &AuthOutput{
+		UserId: strconv.Itoa(userId),
+		Token:  token,
 	}, nil
 }

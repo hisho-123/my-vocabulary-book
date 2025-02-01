@@ -2,20 +2,13 @@ package controller
 
 import (
 	"backend/src/usecase"
-	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-type UserRequest struct {
-	UserName string `json:"userName"`
-	Password string `json:"password"`
-}
-
-func LoginHandler(c *gin.Context) {
-	var requestBody UserRequest
+func RegisterHandler(c *gin.Context) {
+	var requestBody usecase.AuthInput
 	if err := c.ShouldBindJSON(&requestBody); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "invalid JSON body",
@@ -23,26 +16,31 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
-	input := usecase.LoginInput{
-		UserName: requestBody.UserName,
-		Password: requestBody.Password,
-	}
-
-	output, err := usecase.LoginValidation(input)
+	output, err := usecase.CreateUser(requestBody)
 	if err != nil {
 		c.JSON(statusCode(err), gin.H{
-			"error": "permission denied",
+			"error": "Could not create user.",
 		})
 	}
 
-	jsonOutput, err := json.Marshal(output)
-	if err != nil {
-		log.Println("error: ", err)
+	c.JSON(http.StatusOK, output)
+}
+
+func LoginHandler(c *gin.Context) {
+	var requestBody usecase.AuthInput
+	if err := c.ShouldBindJSON(&requestBody); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "invalid JSON body",
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, jsonOutput)
+	output, err := usecase.LoginValidation(requestBody)
+	if err != nil {
+		c.JSON(statusCode(err), gin.H{
+			"error": "permission denied",
+		})
+	}
+
+	c.JSON(http.StatusOK, output)
 }
