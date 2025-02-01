@@ -13,6 +13,7 @@ func NewRouter() *gin.Engine {
 	{
 		api.POST("/register", controller.RegisterHandler)
 		api.POST("/login", controller.LoginHandler)
+		api.POST("/book", controller.CreateHandler)
 	}
 	
 	return router
