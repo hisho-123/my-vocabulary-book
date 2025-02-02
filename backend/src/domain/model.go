@@ -14,8 +14,6 @@ type Book struct {
 }
 
 type Word struct {
-	Id         *int   `json:"wordId"`
-	BookId     int    `json:"bookId"`
 	Word       string `json:"word"`
 	Translated string `json:"translated"`
 }
@@ -30,11 +28,6 @@ type AuthOutput struct {
 	Token  string `json:"token"`
 }
 
-type CreateWordInput struct {
-	Word       string `json:"word"`
-	Translated string `json:"translated"`
-}
-
 type CreateBookInput struct {
 	BookName string `json:"bookName"`
 	Words    []Word `json:"words"`
@@ -43,4 +36,14 @@ type CreateBookInput struct {
 type GetBookListOutput struct {
 	BookId 		int			`json:"bookId"`
 	BookName	string 	`json:"bookName"`
+}
+
+type GetBookInput struct {
+	BookId 		int 		`json:"bookId"`
+}
+
+type GetBookOutput struct {
+	UserId		int			`json:"userId"`
+	BookName	string	`json:"bookName"`
+	Words    	[]Word	`json:"words"`
 }
