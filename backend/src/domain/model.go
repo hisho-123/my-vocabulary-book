@@ -7,10 +7,10 @@ type User struct {
 }
 
 type Book struct {
-	Id          *int    `json:"bookId"`
+	Id          int    `json:"bookId"`
 	UserId      int     `json:"userId"`
 	Name        string  `json:"bookName"`
-	FirstReview *string `json:"firstReview"`
+	FirstReview string `json:"firstReview"`
 }
 
 type Word struct {
@@ -38,4 +38,9 @@ type CreateWordInput struct {
 type CreateBookInput struct {
 	BookName string `json:"bookName"`
 	Words    []Word `json:"words"`
+}
+
+type GetBookListOutput struct {
+	BookId 		int			`json:"bookId"`
+	BookName	string 	`json:"bookName"`
 }

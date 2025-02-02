@@ -20,7 +20,7 @@ func GetBookListByUserId(userId int) (books []domain.Book, err error) {
 
 	var bookId int
 	var bookName string
-	var firstReview string
+	var firstReview sql.NullString
 
 	rows, err := db.Query(queryGetBookList, strconv.Itoa(userId))
 	if err != nil {
@@ -35,10 +35,10 @@ func GetBookListByUserId(userId int) (books []domain.Book, err error) {
 		}
 
 		books = append(books, domain.Book{
-			Id:          &bookId,
+			Id:          bookId,
 			UserId:      userId,
 			Name:        bookName,
-			FirstReview: &firstReview,
+			FirstReview: firstReview.String,
 		})
 	}
 
