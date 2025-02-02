@@ -17,9 +17,10 @@ func NewRouter() *gin.Engine {
 		api.POST("/login", controller.LoginHandler)
 		// 単語帳作成・取得
 		api.POST("/book", controller.CreateHandler)
+		api.GET("/book", controller.GetBookHandler)
 		// 単語帳名取得
 		api.GET("/bookList", controller.GetBookListHandler)
 	}
-	
+
 	return router
 }
