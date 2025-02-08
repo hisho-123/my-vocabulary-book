@@ -23,7 +23,6 @@ func UpdateBookNameByBookId(bookId int, bookName string) error {
 	if err != nil {
 		log.Println("error: ", err)
 		return fmt.Errorf("failed to query get words")
-		return fmt.Errorf("failed to check rows affected")
 	}
 	if rowsAffected == 0 {
 		log.Printf("no book found with book_id %d", bookId)

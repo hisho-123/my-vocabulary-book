@@ -9,13 +9,13 @@ import (
 )
 
 // 単語帳の作成
-func CreateBookByUserId(userId int, book domain.CreateBookInput) error {
+func CreateBookByUserId(book domain.CreateBookInput) error {
 	db := db.OpenDB()
 	defer db.Close()
 
 	queryCreateBook := "insert into books (user_id, book_name) values (?, ?);"
 
-	_, err := db.Exec(queryCreateBook, strconv.Itoa(userId), book.BookName)
+	_, err := db.Exec(queryCreateBook, strconv.Itoa(book.UserId), book.BookName)
 	if err != nil {
 		log.Println("error: ", err)
 		return fmt.Errorf(domain.InternalServerError)

@@ -9,7 +9,7 @@ import (
 )
 
 func RegisterHandler(c *gin.Context) {
-	var requestBody domain.AuthInput
+	var requestBody domain.UserInput
 	if err := c.ShouldBindJSON(&requestBody); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Invalid JSON body.",
@@ -29,7 +29,7 @@ func RegisterHandler(c *gin.Context) {
 }
 
 func LoginHandler(c *gin.Context) {
-	var requestBody domain.AuthInput
+	var requestBody domain.UserInput
 	if err := c.ShouldBindJSON(&requestBody); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Invalid JSON body.",

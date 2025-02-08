@@ -53,7 +53,7 @@ func GetBookListByUserId(userId int) (books []domain.Book, err error) {
 func GetBookByBookId(bookId int) (book *domain.GetBookOutput, err error) {
 	db := db.OpenDB()
 	defer db.Close()
-	
+
 	// 構造体の初期化
 	book = &domain.GetBookOutput{}
 
@@ -73,6 +73,10 @@ func GetBookByBookId(bookId int) (book *domain.GetBookOutput, err error) {
 	queryRowWords := "select word, translated_word from words where book_id = ?"
 	wordsRows, err := db.Query(queryRowWords, bookId)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			log.Println("error: ", err)
+			return nil, fmt.Errorf(domain.InternalServerError)
+		}
 		log.Println("error: ", err)
 		return nil, fmt.Errorf(domain.InternalServerError)
 	}

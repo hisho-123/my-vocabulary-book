@@ -15,6 +15,8 @@ func statusCode(err error) int {
 		return http.StatusForbidden
 	case domain.NotFound:
 		return http.StatusNotFound
+	case domain.Conflict:
+		return http.StatusConflict
 	case domain.InternalServerError:
 		return http.StatusInternalServerError
 	default:

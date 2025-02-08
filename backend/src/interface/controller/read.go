@@ -37,7 +37,7 @@ func GetBookHandler(c *gin.Context) {
 		return
 	}
 
-	var requestBody domain.GetBookInput
+	var requestBody domain.BookInput
 	if err := c.ShouldBindJSON(&requestBody); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Invalid JSON body.",

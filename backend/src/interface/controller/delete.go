@@ -8,16 +8,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateHandler(c *gin.Context) {
+func DeleteBookHandler(c *gin.Context) {
 	requestHeader := c.GetHeader("Token")
 	if requestHeader == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": "Invaild JSON header.",
+			"error": "Invalid Json header.",
 		})
 		return
 	}
 
-	var requestBody domain.CreateBookInput
+	var requestBody domain.BookInput
 	if err := c.ShouldBindJSON(&requestBody); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Invalid JSON body.",
@@ -25,12 +25,12 @@ func CreateHandler(c *gin.Context) {
 		return
 	}
 
-	if err := usecase.CreateBook(requestHeader, requestBody); err != nil {
+	if err := usecase.DeleteBook(requestHeader, requestBody); err != nil {
 		c.JSON(statusCode(err), gin.H{
-			"error": "Could not create book.",
+			"error": "Could not delete book.",
 		})
 		return
 	}
-
+	
 	c.JSON(http.StatusOK, nil)
 }
