@@ -73,6 +73,10 @@ func GetBookByBookId(bookId int) (book *domain.GetBookOutput, err error) {
 	queryRowWords := "select word, translated_word from words where book_id = ?"
 	wordsRows, err := db.Query(queryRowWords, bookId)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			log.Println("error: ", err)
+			return nil, fmt.Errorf(domain.InternalServerError)
+		}
 		log.Println("error: ", err)
 		return nil, fmt.Errorf(domain.InternalServerError)
 	}
@@ -98,4 +102,27 @@ func GetBookByBookId(bookId int) (book *domain.GetBookOutput, err error) {
 	}
 
 	return book, nil
+}
+
+func GetUserIdByBookId(bookId int) (userId *domain.GetBookOnlyUserIdByBookId,err error) {
+	db := db.OpenDB()
+	defer db.Close()
+	
+	queryGetUserId := "select user_id from books where book_id = ?"
+	bookRow, err := db.Query(queryGetUserId, bookId)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			log.Println("error: ", err)
+			return nil, fmt.Errorf(domain.InternalServerError)
+		}
+		log.Println("error: ", err)
+		return nil, fmt.Errorf(domain.InternalServerError)
+	}
+	
+	if err := bookRow.Scan(&userId); err != nil {
+		log.Println("error: ", err)
+		return nil, fmt.Errorf(domain.InternalServerError)
+	}
+	
+	return userId, nil
 }
