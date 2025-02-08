@@ -47,3 +47,22 @@ func LoginHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, output)
 }
+
+func DeleteUserHandler(c *gin.Context) {
+	requestHeader := c.GetHeader("Token")
+	if requestHeader == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Invalid Json header.",
+		})
+		return
+	}
+	
+	if err := usecase.DeleteUser(requestHeader); err != nil {
+		c.JSON(statusCode(err), gin.H{
+			"error": "Could not delete user.",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, nil)
+}
