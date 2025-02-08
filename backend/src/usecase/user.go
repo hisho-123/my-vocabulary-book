@@ -48,3 +48,16 @@ func LoginValidation(input domain.UserInput) (*domain.AuthOutput, error) {
 		Token:  token,
 	}, nil
 }
+
+func DeleteUser(requestHeader string) error {
+	claims, err := domain.ValidateToken(requestHeader)
+	if err != nil {
+		return err
+	}
+
+	if err := gateway.DeleteUserByUserId(claims.UserId); err != nil {
+		return err
+	}
+
+	return nil
+}
