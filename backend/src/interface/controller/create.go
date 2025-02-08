@@ -24,7 +24,7 @@ func CreateHandler(c *gin.Context) {
 		})
 		return
 	}
-	
+
 	if err := usecase.CreateBook(requestHeader, requestBody); err != nil {
 		c.JSON(statusCode(err), gin.H{
 			"error": "Could not create book.",

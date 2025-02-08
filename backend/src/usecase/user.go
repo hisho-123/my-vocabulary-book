@@ -5,12 +5,17 @@ import (
 	"backend/src/interface/gateway"
 )
 
-func CreateUser(input domain.AuthInput) (*domain.AuthOutput, error) {
+func CreateUser(input domain.UserInput) (*domain.AuthOutput, error) {
 	hashedPassword, err := domain.PasswordHash(input.Password)
 	if err != nil {
 		return nil, err
 	}
-	userId, err := gateway.CreateUser(input.UserName, hashedPassword)
+	user := domain.UserInput{
+		UserName: input.UserName,
+		Password: hashedPassword,
+	}
+
+	userId, err := gateway.CreateUser(user)
 	if err != nil {
 		return nil, err
 	}
@@ -23,7 +28,7 @@ func CreateUser(input domain.AuthInput) (*domain.AuthOutput, error) {
 	}, nil
 }
 
-func LoginValidation(input domain.AuthInput) (*domain.AuthOutput, error) {
+func LoginValidation(input domain.UserInput) (*domain.AuthOutput, error) {
 	userId, hashPassword, err := gateway.GetUser(input.UserName)
 	if err != nil {
 		return nil, err

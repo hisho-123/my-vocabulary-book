@@ -3,24 +3,34 @@ package gateway
 import (
 	"backend/src/domain"
 	"backend/src/infra/db"
+	"errors"
 	"fmt"
 	"log"
+
+	"github.com/go-sql-driver/mysql"
 )
 
 // user作成
-func CreateUser(userName string, hashedPassword string) (userId int, err error) {
+func CreateUser(user domain.UserInput) (userId int, err error) {
 	db := db.OpenDB()
 	defer db.Close()
 
 	queryCreateUser := "insert into users (user_name, password) values (?, ?);"
 
-	_, err = db.Exec(queryCreateUser, userName, hashedPassword)
+	_, err = db.Exec(queryCreateUser, user.UserName, user.Password)
 	if err != nil {
+		var mysqlErr *mysql.MySQLError
+		errors.As(err, &mysqlErr)
+		if mysqlErr.Number == 1062 {
+			log.Println("error: ", err)
+			return 0, fmt.Errorf(domain.Conflict)
+		}
+
 		log.Println("error: ", err)
-		return 0, fmt.Errorf("failed to create user")
+		return 0, fmt.Errorf(domain.InternalServerError)
 	}
 
-	userId, hashedPassword, err = GetUser(userName)
+	userId, _, err = GetUser(user.UserName)
 	if err != nil {
 		log.Println("error: ", err)
 		return 0, fmt.Errorf(domain.InternalServerError)

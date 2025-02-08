@@ -53,7 +53,7 @@ func GetBookListByUserId(userId int) (books []domain.Book, err error) {
 func GetBookByBookId(bookId int) (book *domain.GetBookOutput, err error) {
 	db := db.OpenDB()
 	defer db.Close()
-	
+
 	// 構造体の初期化
 	book = &domain.GetBookOutput{}
 

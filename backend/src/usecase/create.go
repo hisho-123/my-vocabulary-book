@@ -10,8 +10,9 @@ func CreateBook(requestHeader string, input domain.CreateBookInput) error {
 	if err != nil {
 		return err
 	}
+	input.UserId = claims.UserId
 
-	if err := gateway.CreateBookByUserId(claims.UserId, input); err != nil {
+	if err := gateway.CreateBookByUserId(input); err != nil {
 		return err
 	}
 	
