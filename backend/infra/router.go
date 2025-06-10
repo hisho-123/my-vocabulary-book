@@ -3,24 +3,20 @@ package router
 import (
 	"backend/src/interface/controller"
 
-	"time"
-
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func NewRouter() *gin.Engine {
 	router := gin.Default()
 
-	// CORSの設定
-	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:5173"}, /*TODO: deploy時、変更必須箇所*/
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization", "Token"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
-	}))
+	// Vueの静的ファイル配信（ルートにマウント）
+	router.Static("/assets", "./frontend/dist/assets")
+	router.StaticFile("/", "./frontend/dist/index.html")
+
+	// catch-all でSPAルーティング対応
+	router.NoRoute(func(c *gin.Context) {
+			c.File("./frontend/dist/index.html")
+	})
 
 	api := router.Group("/api")
 	{
